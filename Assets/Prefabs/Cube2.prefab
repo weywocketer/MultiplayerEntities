@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5041125861281790438}
   - component: {fileID: 4876635485291288007}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Cube2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9d79d65bee90f0c42b237954458529c2, type: 2}
+  - {fileID: 2100000, guid: 4cf577331646afb41bfefdf84ff8eb9c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -164,7 +164,7 @@ MonoBehaviour:
   SupportedGhostModes: 3
   OptimizationMode: 0
   Importance: 1
-  prefabId: 051461ed1e79e1e48b6eb389eb540824
+  prefabId: 
   HasOwner: 1
   SupportAutoCommandTarget: 1
   TrackInterpolationDelay: 0

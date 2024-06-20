@@ -63,6 +63,7 @@ public partial struct GoInGameClientSystem : ISystem
 public partial struct GoInGameServerSystem : ISystem
 {
     private ComponentLookup<NetworkId> networkIdFromEntity;
+    int numberOfPlayers;
 
     [BurstCompile]
     public void OnCreate(ref SystemState state)
@@ -73,15 +74,31 @@ public partial struct GoInGameServerSystem : ISystem
             .WithAll<ReceiveRpcCommandRequest>();
         state.RequireForUpdate(state.GetEntityQuery(builder));
         networkIdFromEntity = state.GetComponentLookup<NetworkId>(true);
+
+        numberOfPlayers = 0;
     }
 
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         // Get the prefab to instantiate
-        var prefab = SystemAPI.GetSingleton<CubeSpawner>().Cube;
+        //var prefab = SystemAPI.GetSingleton<CubeSpawner>().Cube;
 
-        // Ge the name of the prefab being instantiated
+
+        Entity prefab;
+        //if (Random.Range(0,2) == 0)
+        if (numberOfPlayers == 0)
+        {
+            prefab = SystemAPI.GetSingleton<CubeSpawner>().Cube;
+        }
+        else
+        {
+            prefab = SystemAPI.GetSingleton<CubeSpawner>().Cube2;
+        }
+
+
+
+        // Get the name of the prefab being instantiated
         state.EntityManager.GetName(prefab, out var prefabName);
         var worldName = new FixedString32Bytes(state.WorldUnmanaged.Name);
 
@@ -105,6 +122,8 @@ public partial struct GoInGameServerSystem : ISystem
             // Add the player to the linked entity group so it is destroyed automatically on disconnect
             commandBuffer.AppendToBuffer(reqSrc.ValueRO.SourceConnection, new LinkedEntityGroup { Value = player });
             commandBuffer.DestroyEntity(reqEntity);
+
+            numberOfPlayers++;
         }
         commandBuffer.Playback(state.EntityManager);
     }

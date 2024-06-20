@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Cube: {fileID: 3897415894737797167, guid: 051461ed1e79e1e48b6eb389eb540824, type: 3}
+  Cube2: {fileID: 3897415894737797167, guid: d90dc2935159fdb499a2177a8df5519e, type: 3}
 --- !u!4 &469334438
 Transform:
   m_ObjectHideFlags: 0
