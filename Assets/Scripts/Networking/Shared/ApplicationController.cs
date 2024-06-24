@@ -4,13 +4,12 @@ using UnityEngine;
 using System.Collections;
 using Unity.Services.Core;
 
+/// <summary>
+/// Singleton that manages the high level networking aspects.
+/// </summary>
 public class ApplicationController : MonoBehaviour
 {
-    //[SerializeField] ClientSingleton clientPrefab;
-    //[SerializeField] HostSingleton hostPrefab;
-    //[SerializeField] TextMeshProUGUI codeText;
     bool authenticated = false;
-    //ClientGameManager clientGameManager;
     public static ApplicationController Instance { get; private set; }
 
     void Awake()
@@ -41,8 +40,6 @@ public class ApplicationController : MonoBehaviour
         else
         {
             authenticated = await InitAsync();
-            //clientGameManager = new();
-            //authenticated = await clientGameManager.InitAsync();
         }
 
     }
@@ -50,17 +47,17 @@ public class ApplicationController : MonoBehaviour
     public async Task LaunchHost()
     {
         if (!authenticated) { return; }
-        HostGameManager hostGameManager = new();
-        //hostGameManager.codeText = codeText;
+
+        HostUtils hostGameManager = new();
         await hostGameManager.StartHostAsync();
     }
 
     public async Task LaunchClient(string joinCode)
     {
         if (!authenticated) { return; }
-        ClientGameManager clientGameManager = new();
+
+        ClientUtils clientGameManager = new();
         await clientGameManager.StartClientAsync(joinCode);
-        //clientGameManager.GoToMenu();
     }
 
     public void StartHeartbeatLobby(float waitTime, string lobbyId)
@@ -86,7 +83,7 @@ public class ApplicationController : MonoBehaviour
 
         if (authState == AuthenticationState.Authenticated)
         {
-            Debug.Log("auth complete! :)");
+            Debug.Log("UGS authentication complete!");
             return true;
         }
 

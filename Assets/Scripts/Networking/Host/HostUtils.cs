@@ -5,14 +5,12 @@ using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using Unity.Networking.Transport.Relay;
 using Unity.Services.Lobbies;
-using TMPro;
 using Unity.Services.Lobbies.Models;
 using System.Collections.Generic;
 
-public class HostGameManager
+public class HostUtils
 {
-    const int MaxConnections = 20;
-    const string GameSceneName = "Game";
+    const int MaxConnections = 2;
     Allocation allocation;
     string joinCode;
     string lobbyId;

@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 
+/// <summary>
+/// Wrapper class used when authenticating to the Unity Gaming Services.
+/// </summary>
 public static class AuthenticationWrapper
 {
     public static AuthenticationState AuthState { get; private set; } = AuthenticationState.NotAuthenticated;
@@ -74,7 +77,6 @@ public static class AuthenticationWrapper
             AuthState = AuthenticationState.TimeOut;
         }
     }
-
 
 }
 

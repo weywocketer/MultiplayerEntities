@@ -4,13 +4,10 @@ using Unity.Networking.Transport.Relay;
 using Unity.Services.Core;
 using Unity.Services.Relay.Models;
 using Unity.Services.Relay;
-using UnityEngine.SceneManagement;
 using UnityEngine;
 
-public class ClientGameManager
+public class ClientUtils
 {
-    const string MenuSceneName = "Menu";
-    const string GameSceneName = "Game";
     JoinAllocation allocation;
 
     public async Task<bool> InitAsync()
@@ -25,11 +22,6 @@ public class ClientGameManager
         }
 
         return false;
-    }
-
-    public void GoToMenu()
-    {
-        SceneManager.LoadScene(MenuSceneName);
     }
 
     public async Task StartClientAsync(string joinCode)

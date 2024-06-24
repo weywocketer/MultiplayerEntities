@@ -147,8 +147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2897ec99a755e9349a6ee39c956bdbc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Cube: {fileID: 3897415894737797167, guid: 051461ed1e79e1e48b6eb389eb540824, type: 3}
-  Cube2: {fileID: 3897415894737797167, guid: d90dc2935159fdb499a2177a8df5519e, type: 3}
+  Player1: {fileID: 3897415894737797167, guid: d90dc2935159fdb499a2177a8df5519e, type: 3}
+  Player2: {fileID: 3897415894737797167, guid: 051461ed1e79e1e48b6eb389eb540824, type: 3}
 --- !u!4 &469334438
 Transform:
   m_ObjectHideFlags: 0
@@ -267,7 +267,7 @@ Transform:
   m_GameObject: {fileID: 1180327200}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

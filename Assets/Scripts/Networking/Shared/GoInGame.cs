@@ -32,7 +32,7 @@ public partial struct GoInGameClientSystem : ISystem
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
-        // Run only on entities with a CubeSpawner component data 
+        // Run only on entities with a CubeSpawner component data.
         state.RequireForUpdate<CubeSpawner>();
 
         var builder = new EntityQueryBuilder(Allocator.Temp)
@@ -57,7 +57,7 @@ public partial struct GoInGameClientSystem : ISystem
 }
 
 [BurstCompile]
-// When server receives go in game request, go in game and delete request
+// When server receives go in game request, go in game and delete request.
 [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
 public partial struct GoInGameServerSystem : ISystem
 {
@@ -86,11 +86,11 @@ public partial struct GoInGameServerSystem : ISystem
         Entity prefab;
         if (numberOfPlayers%2 ==  0)
         {
-            prefab = SystemAPI.GetSingleton<CubeSpawner>().Cube;
+            prefab = SystemAPI.GetSingleton<CubeSpawner>().Player1;
         }
         else
         {
-            prefab = SystemAPI.GetSingleton<CubeSpawner>().Cube2;
+            prefab = SystemAPI.GetSingleton<CubeSpawner>().Player2;
         }
 
         // Get the name of the prefab being instantiated
