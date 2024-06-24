@@ -1,4 +1,3 @@
-using UnityEngine;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.NetCode;
@@ -81,13 +80,11 @@ public partial struct GoInGameServerSystem : ISystem
     [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
-        // Get the prefab to instantiate
-        //var prefab = SystemAPI.GetSingleton<CubeSpawner>().Cube;
-
+        // Get player prefab to instantiate
+        // Every second player will have the same color (temporary solution, as we assume there are only two players).
 
         Entity prefab;
-        //if (Random.Range(0,2) == 0)
-        if (numberOfPlayers == 0)
+        if (numberOfPlayers%2 ==  0)
         {
             prefab = SystemAPI.GetSingleton<CubeSpawner>().Cube;
         }
@@ -95,8 +92,6 @@ public partial struct GoInGameServerSystem : ISystem
         {
             prefab = SystemAPI.GetSingleton<CubeSpawner>().Cube2;
         }
-
-
 
         // Get the name of the prefab being instantiated
         state.EntityManager.GetName(prefab, out var prefabName);

@@ -1,17 +1,16 @@
 using System.Threading.Tasks;
-using TMPro;
-using Unity.Services.Lobbies.Models;
 using Unity.Services.Lobbies;
 using UnityEngine;
 using System.Collections;
+using Unity.Services.Core;
 
 public class ApplicationController : MonoBehaviour
 {
-    [SerializeField] ClientSingleton clientPrefab;
-    [SerializeField] HostSingleton hostPrefab;
-    [SerializeField] TextMeshProUGUI codeText;
+    //[SerializeField] ClientSingleton clientPrefab;
+    //[SerializeField] HostSingleton hostPrefab;
+    //[SerializeField] TextMeshProUGUI codeText;
     bool authenticated = false;
-    ClientGameManager clientGameManager;
+    //ClientGameManager clientGameManager;
     public static ApplicationController Instance { get; private set; }
 
     void Awake()
@@ -37,41 +36,29 @@ public class ApplicationController : MonoBehaviour
     {
         if (isDedicatedServer)
         {
-
+            // TODO: Implement dedicated server init here.
         }
         else
         {
-            //HostSingleton hostSingleton = Instantiate(hostPrefab);
-            //hostSingleton.CreateHost();
-
-            //ClientSingleton clientSingleton = Instantiate(clientPrefab);
-            //bool authenticated = await clientSingleton.CreateClient();
-
-            //if (authenticated)
-            //{
-            //    clientSingleton.GameManager.GoToMenu();
-            //}
-
-            clientGameManager = new();
-            authenticated = await clientGameManager.InitAsync();
-
-            //await clientGameManager.StartClientAsync();
-
+            authenticated = await InitAsync();
+            //clientGameManager = new();
+            //authenticated = await clientGameManager.InitAsync();
         }
-
-         
 
     }
 
     public async Task LaunchHost()
     {
+        if (!authenticated) { return; }
         HostGameManager hostGameManager = new();
-        hostGameManager.codeText = codeText;
+        //hostGameManager.codeText = codeText;
         await hostGameManager.StartHostAsync();
     }
 
     public async Task LaunchClient(string joinCode)
     {
+        if (!authenticated) { return; }
+        ClientGameManager clientGameManager = new();
         await clientGameManager.StartClientAsync(joinCode);
         //clientGameManager.GoToMenu();
     }
@@ -90,5 +77,19 @@ public class ApplicationController : MonoBehaviour
             Lobbies.Instance.SendHeartbeatPingAsync(lobbyId);
             yield return waitForSeconds;
         }
+    }
+
+    public async Task<bool> InitAsync()
+    {
+        await UnityServices.InitializeAsync();
+        AuthenticationState authState = await AuthenticationWrapper.DoAuth();
+
+        if (authState == AuthenticationState.Authenticated)
+        {
+            Debug.Log("auth complete! :)");
+            return true;
+        }
+
+        return false;
     }
 }

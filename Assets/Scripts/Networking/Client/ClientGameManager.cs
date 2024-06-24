@@ -1,7 +1,5 @@
 using System;
 using System.Threading.Tasks;
-//using Unity.Netcode.Transports.UTP;
-//using Unity.Netcode;
 using Unity.Networking.Transport.Relay;
 using Unity.Services.Core;
 using Unity.Services.Relay.Models;
@@ -47,16 +45,6 @@ public class ClientGameManager
         }
 
         RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
-        
         GameBootstrap.CreateClientWorldWithRelayData(relayServerData);
-
-
-
-
-        //UnityTransport transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
-
-        //transport.SetRelayServerData(relayServerData);
-
-        //NetworkManager.Singleton.StartClient();
     }
 }
