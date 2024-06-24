@@ -1,6 +1,9 @@
 using System.Threading.Tasks;
 using TMPro;
+using Unity.Services.Lobbies.Models;
+using Unity.Services.Lobbies;
 using UnityEngine;
+using System.Collections;
 
 public class ApplicationController : MonoBehaviour
 {
@@ -71,5 +74,21 @@ public class ApplicationController : MonoBehaviour
     {
         await clientGameManager.StartClientAsync(joinCode);
         //clientGameManager.GoToMenu();
+    }
+
+    public void StartHeartbeatLobby(float waitTime, string lobbyId)
+    {
+        StartCoroutine(HeartbeatLobby(waitTime, lobbyId));
+    }
+
+    IEnumerator HeartbeatLobby(float waitTime, string lobbyId)
+    {
+        WaitForSecondsRealtime waitForSeconds = new WaitForSecondsRealtime(waitTime);
+
+        while (true)
+        {
+            Lobbies.Instance.SendHeartbeatPingAsync(lobbyId);
+            yield return waitForSeconds;
+        }
     }
 }

@@ -10,6 +10,8 @@ using Unity.Services.Lobbies;
 using System.Collections;
 using TMPro;
 using UnityEngine.UIElements;
+using Unity.Services.Lobbies.Models;
+using System.Collections.Generic;
 
 public class HostGameManager
 {
@@ -45,6 +47,14 @@ public class HostGameManager
             return;
         }
 
+        //RelayServerData relayServerData = HostRelayData(allocation, "dtls");
+        RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
+
+        //RelayServerData relayServerData = new RelayServerData(allocation, "wss");
+
+
+
+
         //ClientServerBootstrap.CreateClientWorld("");
         //TransportType
         //NetworkStreamDriver
@@ -53,43 +63,44 @@ public class HostGameManager
 
 
 
+        try
+        {
+            CreateLobbyOptions lobbyOptions = new();
+            lobbyOptions.IsPrivate = false; // Private lobbies won't show up, but you can still connect via join code.
+            lobbyOptions.Data = new Dictionary<string, DataObject>()
+            {
+                {
+                    "JoinCode", new DataObject(
+                         visibility: DataObject.VisibilityOptions.Member,
+                         value: joinCode
+                    )
+                }
+            };
 
-        //RelayServerData relayServerData = HostRelayData(allocation, "dtls");
-        RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
+            Lobby lobby = await Lobbies.Instance.CreateLobbyAsync("Multiplayer-Entities Test Server", MaxConnections, lobbyOptions);
+            lobbyId = lobby.Id;
 
-        //RelayServerData relayServerData = new RelayServerData(allocation, "wss");
+            ApplicationController.Instance.StartHeartbeatLobby(15, lobbyId);
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.LogError(e);
+            return;
+        }
+
+
+
+
         GameBootstrap.CreateServerWorldWithRelayData(relayServerData);
 
+        new WaitForSecondsRealtime(1);
+        await ApplicationController.Instance.LaunchClient(joinCode);
 
 
 
 
 
 
-        //try
-        //{
-        //    CreateLobbyOptions lobbyOptions = new();
-        //    lobbyOptions.IsPrivate = false; // Private lobbies won't show up, but you can still connect via join code.
-        //    lobbyOptions.Data = new Dictionary<string, DataObject>()
-        //    {
-        //        {
-        //            "JoinCode", new DataObject(
-        //                 visibility: DataObject.VisibilityOptions.Member,
-        //                 value: joinCode
-        //            )
-        //        }
-        //    };
-
-        //    Lobby lobby = await Lobbies.Instance.CreateLobbyAsync("Anchor Test Server", MaxConnections, lobbyOptions);
-        //    lobbyId = lobby.Id;
-
-        //    HostSingleton.Instance.StartCoroutine(HeartbeatLobby(15));
-        //}
-        //catch (LobbyServiceException e)
-        //{
-        //    Debug.LogError(e);
-        //    return;
-        //}
 
 
 
@@ -98,16 +109,16 @@ public class HostGameManager
         //NetworkManager.Singleton.SceneManager.LoadScene(GameSceneName, LoadSceneMode.Single); // Only the server has to change the scene (clients will follow).
     }
 
-    IEnumerator HeartbeatLobby(float waitTime)
-    {
-        WaitForSecondsRealtime waitForSeconds = new WaitForSecondsRealtime(waitTime);
+    //IEnumerator HeartbeatLobby(float waitTime)
+    //{
+    //    WaitForSecondsRealtime waitForSeconds = new WaitForSecondsRealtime(waitTime);
 
-        while (true)
-        {
-            Lobbies.Instance.SendHeartbeatPingAsync(lobbyId);
-            yield return waitForSeconds;
-        }
+    //    while (true)
+    //    {
+    //        Lobbies.Instance.SendHeartbeatPingAsync(lobbyId);
+    //        yield return waitForSeconds;
+    //    }
 
-    }
+    //}
 
 }
